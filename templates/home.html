@@ -1,0 +1,20 @@
+{# 이 파일은 base.html의 틀을 물려받아요 #}
+{% extends "base.html" %}
+
+{# 탭 제목 칸 채우기 #}
+{% block title %}홈 · 클래스로 마켓{% endblock %}
+
+{# 본문 칸 채우기 #}
+{% block content %}
+  <h1>클래스로 마켓에 오신 걸 환영해요</h1>
+  <p class="lead">지금 <strong>{{ total }}개</strong>의 클래스가 있어요.</p>   {# app.py가 넘겨준 전체 개수 #}
+
+  <div class="chips">
+    <a href="{{ url_for('class_list') }}">전체 보기</a>   {# 거르지 않고 전부 보기 #}
+    {% for cat in categories %}                          {# 카테고리마다 버튼을 하나씩 만들어요 #}
+      <a href="{{ url_for('class_list', category=cat) }}">{{ cat }}</a>   {# /classes?category=공예 같은 주소가 만들어져요 #}
+    {% endfor %}
+  </div>
+
+  <p>인사 화면 예시: <a href="{{ url_for('hello', name='지민') }}">지민 님께 인사하기</a></p>
+{% endblock %}

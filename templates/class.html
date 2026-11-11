@@ -1,0 +1,67 @@
+{% extends "base.html" %}                                {# base.html 틀을 물려받아요 #}
+
+{% block title %}{{ c.name }} · 클래스로 마켓{% endblock %}   {# 탭 제목에 클래스 이름을 넣어요 #}
+
+{% block content %}
+  {% from "_macros.html" import price, rating %}          {# 가격·평점 표시 틀을 가져와요 #}
+
+  {# 이 클래스의 카테고리만 모아 보는 목록으로 돌아가요 (/classes?category=공예 같은 주소) #}
+  <p><a class="back" href="{{ url_for('class_list', category=c.category) }}">← 카테고리 목록</a></p>
+
+  <article class="detail">
+    <p class="meta">{{ c.category }} · {{ c.region }}</p>   {# 카테고리 · 지역 #}
+    <h1>{{ c.name }}</h1>                                   {# 클래스 이름 #}
+    <p class="price">{{ price(c) }}</p>                     {# 가격 (비면 '가격 문의') #}
+    <p class="rating">{{ rating(c) }}</p>                   {# 평점 (비면 '아직 리뷰가 없어요') #}
+
+    {# 찜 버튼: 값을 바꾸는 일이라 method="post" 예요. 누르면 찜하기 ↔ 찜 취소가 번갈아 돼요 #}
+    <form class="wish-form" method="post" action="{{ url_for('toggle_wish', class_id=c.id) }}">
+      <button type="submit" class="wish-btn {% if wished %}on{% endif %}" aria-pressed="{{ 'true' if wished else 'false' }}">
+        {% if wished %}♥ 찜 취소{% else %}♡ 찜하기{% endif %}   {# 이미 찜했으면 '찜 취소', 아니면 '찜하기' #}
+      </button>
+    </form>
+  </article>
+
+  <section class="review-form">                            {# 후기 남기기 영역이에요 #}
+    <h2>수강 후기 남기기</h2>
+    {% for message in get_flashed_messages() %}            {# 남겨 둔 안내가 있으면 꺼내서 (꺼내는 순간 사라져서 한 번만 보여요) #}
+      <div class="toast" role="status">{{ message }}</div> {# 화면 아래에 떴다가 몇 초 뒤 저절로 사라지는 토스트예요 (움직임은 style.css 가 맡아요) #}
+    {% endfor %}
+    {% if error %}<p class="form-error" role="alert">{{ error }}</p>{% endif %}   {# 틀린 점이 있으면 이유를 보여 줘요 #}
+
+    {# method="post": 저장 버튼을 누르면 POST로 보내요. action 이 없으면 지금 보는 같은 주소로 가요 #}
+    <form method="post">
+      <label for="nickname">닉네임</label>                  {# 글자 입력칸의 이름표예요 #}
+      <input id="nickname" name="nickname" type="text" maxlength="20" required value="{{ form.nickname }}">   {# 닉네임 칸 (20자까지, 비우면 제출 안 돼요, 틀렸을 때 쓴 글자를 다시 채워요) #}
+
+      <label for="rating">별점</label>
+      <select id="rating" name="rating" required>           {# 1~5 중에서 고르는 칸이에요 #}
+        <option value="">선택해 주세요</option>
+        {% for n in range(5, 0, -1) %}                      {# 5부터 1까지 하나씩 만들어요 #}
+          <option value="{{ n }}" {% if form.rating == n|string %}selected{% endif %}>{{ "★" * n }} ({{ n }}점)</option>   {# 틀렸을 때 골랐던 별점을 다시 선택해 줘요 #}
+        {% endfor %}
+      </select>
+
+      <label for="content">후기 내용</label>
+      <textarea id="content" name="content" rows="4" maxlength="500" required>{{ form.content }}</textarea>   {# 여러 줄 입력칸이에요 (500자까지) #}
+
+      <button type="submit">저장</button>                   {# 누르면 위 폼이 POST로 제출돼요 #}
+    </form>
+  </section>
+
+  <section class="reviews">                                {# 후기 목록 영역이에요 #}
+    <h2>수강 후기</h2>
+    {% if reviews %}                                       {# 후기가 하나라도 있으면 #}
+      <ul>
+        {% for r in reviews %}                             {# 후기를 하나씩 꺼내서 #}
+          <li>
+            <p class="review-head"><b>{{ r.nickname }}</b> <span class="star" aria-label="별점 {{ r.rating }}점">{{ "★" * r.rating }}</span></p>   {# 닉네임과 별점(★ 개수) #}
+            <p class="review-body">{{ r.content }}</p>     {# 후기 내용 #}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}                                             {# 후기가 하나도 없으면 #}
+      <p class="empty-review">아직 남겨진 후기가 없어요</p>
+    {% endif %}
+  </section>
+{% endblock %}

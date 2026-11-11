@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 탭 제목: 자식 화면이 title 칸을 채우면 바뀌고, 안 채우면 기본값이 나와요 -->
+  <title>{% block title %}클래스로 마켓{% endblock %}</title>
+  <!-- url_for('static', ...) 는 static 폴더 안의 파일 주소를 대신 만들어 줘요 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <!-- 맨 위: 서비스 이름과 메뉴 (모든 화면에 똑같이 보여요) -->
+  <header>
+    <a class="brand" href="{{ url_for('home') }}">클래스로 마켓</a>
+    <nav>
+      <a href="{{ url_for('home') }}">홈</a>
+      <a href="{{ url_for('about') }}">소개</a>
+      <a href="{{ url_for('wishlist') }}">찜 목록 ({{ wish_count }})</a>   <!-- 찜한 개수는 app.py 가 모든 화면에 넘겨 줘요 -->
+    </nav>
+  </header>
+
+  <!-- 가운데: 화면마다 달라지는 본문 자리 (자식 화면이 여기를 채워요) -->
+  <main class="{% block main_class %}narrow{% endblock %}">   <!-- 기본은 좁은 본문, 목록 화면만 wide 로 바꿔요 -->
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- 맨 아래: 바닥 글씨 (모든 화면에 똑같이 보여요) -->
+  <footer>© 2026 클래스로 마켓</footer>
+</body>
+</html>

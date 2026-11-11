@@ -1,0 +1,32 @@
+{% extends "base.html" %}                                {# base.html 틀을 물려받아요 #}
+
+{% block title %}찜 목록 · 클래스로 마켓{% endblock %}     {# 탭 제목이에요 #}
+{% block main_class %}wide{% endblock %}                 {# 목록은 넓은 본문을 써요 (여러 열 카드) #}
+
+{% block content %}
+  {% from "_macros.html" import price, rating, sale_pct %}   {# 할인율·가격·평점 표시 틀을 가져와요 #}
+
+  <h1 class="headline"><b>내 찜 목록</b></h1>
+
+  {% if classes %}                                    {# 찜한 클래스가 1개 이상이면 #}
+    <ul class="cards">
+      {% for c in classes %}                          {# 클래스마다 카드를 하나씩 만들어요 #}
+        <li class="card">
+          <a class="card-link" href="{{ url_for('class_detail', class_id=c.id) }}">   {# 카드를 누르면 상세 화면으로 가요 #}
+            <div class="photo">
+              {% if c.on_sale %}<span class="badge">{{ sale_pct(c) }} 할인 중</span>{% endif %}
+            </div>
+            <div class="info">
+              <p class="meta"><span class="tag">{{ c.category }}</span><span>{{ c.region }}</span></p>
+              <h2>{{ c.name }}</h2>
+              <p class="price">{{ price(c) }}</p>
+              <p class="rating">{{ rating(c) }}</p>
+            </div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}                                          {# 찜한 게 하나도 없으면 #}
+    <p class="empty">아직 찜한 클래스가 없어요</p>
+  {% endif %}
+{% endblock %}

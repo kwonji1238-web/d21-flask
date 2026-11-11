@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/currculator-design-system-3f22075c-9367-4cde-81f9-edf809834618/styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<script src="_ds/currculator-design-system-3f22075c-9367-4cde-81f9-edf809834618/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<style>body{margin:0;background:#e9e9ec;-webkit-font-smoothing:antialiased}a{color:#1d1d1f}a:hover{text-decoration:underline}button{font-family:inherit}</style>
+</helmet>
+<div style="min-width:1440px;padding:72px 80px 120px;box-sizing:border-box;font-family:'Pretendard Variable',-apple-system,'SF Pro Text',Inter,sans-serif;color:#1d1d1f;word-break:keep-all;display:flex;flex-direction:column;gap:64px">
+
+  <header style="display:flex;justify-content:space-between;align-items:flex-end;gap:48px;padding-bottom:32px;border-bottom:1px solid rgba(0,0,0,0.12)">
+    <div style="display:flex;flex-direction:column;gap:12px;flex:none">
+      <span style="font-size:13px;font-weight:600;letter-spacing:0.08em;color:#7a7a7a">ONEDAY CLASS · LIST</span>
+      <span style="font-size:44px;font-weight:300;letter-spacing:-1.2px;line-height:1.15">원데이 클래스 <b style="font-weight:700">목록 화면</b></span>
+    </div>
+    <div style="display:grid;grid-template-columns:auto auto;gap:8px 28px;font-size:13px;line-height:1.5">
+      <span style="color:#7a7a7a">사용자</span><span>주말에 뭘 배울지 고르는 20대 직장인</span>
+      <span style="color:#7a7a7a">플랫폼</span><span>모바일 1열 · PC 3~4열 반응형</span>
+      <span style="color:#7a7a7a">화면</span><span>목록 · 정렬 시트 · 필터 적용 · PC</span>
+    </div>
+  </header>
+
+  <div style="display:flex;gap:56px;align-items:flex-start">
+    <sc-for list="{{ screens }}" as="sc" hint-placeholder-count="3">
+      <div style="display:flex;flex-direction:column;gap:16px;width:375px;flex:none">
+        <div style="display:flex;align-items:baseline;gap:10px">
+          <span style="font-size:13px;font-weight:700">{{ sc.no }}</span>
+          <span style="font-size:13px;color:#555">{{ sc.title }}</span>
+        </div>
+        <div style="{{ sc.frameStyle }}">
+          <div style="height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 24px 0 28px">
+            <span style="font-size:15px;font-weight:600">9:41</span>
+            <div style="display:flex;gap:5px;align-items:center">
+              <img src="https://unpkg.com/lucide-static@0.469.0/icons/signal.svg" alt="" style="width:15px;height:15px">
+              <img src="https://unpkg.com/lucide-static@0.469.0/icons/wifi.svg" alt="" style="width:15px;height:15px">
+              <img src="https://unpkg.com/lucide-static@0.469.0/icons/battery-full.svg" alt="" style="width:20px;height:20px">
+            </div>
+          </div>
+          <div style="height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 12px 0 20px">
+            <span style="font-size:20px;font-weight:800;letter-spacing:-0.8px">oneday</span>
+            <div style="display:flex">
+              <button aria-label="검색" class="cc-press" style="width:44px;height:44px;border:0;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer"><img src="https://unpkg.com/lucide-static@0.469.0/icons/search.svg" alt="" style="width:22px;height:22px"></button>
+              <button aria-label="장바구니" class="cc-press" style="width:44px;height:44px;border:0;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer"><img src="https://unpkg.com/lucide-static@0.469.0/icons/shopping-bag.svg" alt="" style="width:22px;height:22px"></button>
+            </div>
+          </div>
+          <div style="padding:20px 20px 28px;display:flex;flex-direction:column;gap:14px">
+            <span style="font-size:30px;line-height:1.25;letter-spacing:-1px;font-weight:300">이번 주말엔<br><b style="font-weight:700">뭘 배워볼까요?</b></span>
+            <button class="cc-press" style="align-self:flex-start;display:flex;align-items:center;gap:4px;border:0;background:none;padding:6px 0;font-size:14px;font-weight:600;color:#1d1d1f;cursor:pointer">
+              <img src="https://unpkg.com/lucide-static@0.469.0/icons/map-pin.svg" alt="" style="width:15px;height:15px">서울 전체<img src="https://unpkg.com/lucide-static@0.469.0/icons/chevron-down.svg" alt="" style="width:15px;height:15px;opacity:.5">
+            </button>
+          </div>
+          <div style="position:sticky;top:0;z-index:2;background:#faf9f6;display:flex;flex-direction:column;gap:14px;padding:4px 0 14px">
+            <div style="display:flex;gap:6px;overflow-x:auto;padding:0 20px;scrollbar-width:none">
+              <sc-for list="{{ sc.cats }}" as="c" hint-placeholder-count="6">
+                <button class="cc-press" onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}</button>
+              </sc-for>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:0 20px">
+              <span style="font-size:13px;color:#7a7a7a;white-space:nowrap">총 <b style="color:#1d1d1f;font-weight:600">{{ sc.count }}</b>개</span>
+              <button class="cc-press" onClick="{{ sc.openSheet }}" style="display:flex;align-items:center;gap:2px;border:0;background:#f0ede6;border-radius:6px;padding:8px 8px 8px 12px;font-size:13px;font-weight:600;color:#1d1d1f;cursor:pointer">{{ sc.sortLabel }}<img src="https://unpkg.com/lucide-static@0.469.0/icons/chevron-down.svg" alt="" style="width:15px;height:15px"></button>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr;gap:36px;padding:8px 20px 48px">
+            <sc-for list="{{ sc.items }}" as="it" hint-placeholder-count="3">
+              <article style="display:flex;flex-direction:column;gap:14px;cursor:pointer">
+                <div style="position:relative;aspect-ratio:4/3;border-radius:4px;overflow:hidden;background:#ece8df">
+                  <image-slot id="class-photo-{{ it.id }}" shape="rect" placeholder="{{ it.photoHint }}"></image-slot>
+                  <sc-if value="{{ it.hasSale }}"><span style="position:absolute;left:0;bottom:0;pointer-events:none;background:#1d1d1f;color:#fff;font-size:12px;font-weight:700;padding:6px 10px">{{ it.pct }} 할인 중</span></sc-if>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                    <div style="display:flex;align-items:center;gap:8px">
+                      <span style="background:#dcf06a;font-size:11px;font-weight:700;padding:3px 6px;border-radius:2px">{{ it.cat }}</span>
+                      <span style="font-size:12px;color:#7a7a7a">{{ it.area }}</span>
+                    </div>
+                    <button aria-label="찜하기" class="cc-press" onClick="{{ it.onLike }}" style="width:36px;height:36px;margin:-8px -8px -8px 0;border:0;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer">
+                      <img src="{{ it.heartSrc }}" alt="" style="width:20px;height:20px">
+                    </button>
+                  </div>
+                  <span style="font-size:18px;font-weight:600;letter-spacing:-0.5px;line-height:1.35">{{ it.name }}</span>
+                  <sc-if value="{{ it.hasPrice }}" hint-placeholder-val="{{ true }}">
+                    <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap">
+                      <sc-if value="{{ it.hasSale }}"><span style="font-size:18px;font-weight:800;color:#e0461f">{{ it.pct }}</span></sc-if>
+                      <span style="font-size:18px;font-weight:800;letter-spacing:-0.3px">{{ it.price }}</span>
+                      <sc-if value="{{ it.hasSale }}"><span style="font-size:13px;color:#9a9a9a;text-decoration:line-through">{{ it.orig }}</span></sc-if>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ it.noPrice }}"><span style="font-size:16px;font-weight:700;color:#555">가격 문의</span></sc-if>
+                  <sc-if value="{{ it.hasReview }}" hint-placeholder-val="{{ true }}">
+                    <div style="display:flex;align-items:center;gap:4px;font-size:13px;color:#7a7a7a">
+                      <img src="https://unpkg.com/lucide-static@0.469.0/icons/star.svg" alt="평점" style="width:13px;height:13px">
+                      <b style="font-weight:700;color:#1d1d1f">{{ it.rating }}</b><span>리뷰 {{ it.reviewCount }}</span>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ it.noReview }}"><span style="font-size:13px;color:#9a9a9a">아직 리뷰가 없어요</span></sc-if>
+                </div>
+              </article>
+            </sc-for>
+          </div>
+          <nav style="position:sticky;bottom:0;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);padding:8px 8px 28px;background:#faf9f6;border-top:1px solid rgba(0,0,0,0.06)">
+            <button style="display:flex;flex-direction:column;align-items:center;gap:4px;border:0;background:none;opacity:.35;font-size:10px;cursor:pointer"><img src="https://unpkg.com/lucide-static@0.469.0/icons/house.svg" alt="" style="width:22px;height:22px">홈</button>
+            <button style="display:flex;flex-direction:column;align-items:center;gap:4px;border:0;background:none;font-size:10px;font-weight:700;cursor:pointer"><img src="https://unpkg.com/lucide-static@0.469.0/icons/layout-grid.svg" alt="" style="width:22px;height:22px">클래스</button>
+            <button style="display:flex;flex-direction:column;align-items:center;gap:4px;border:0;background:none;opacity:.35;font-size:10px;cursor:pointer"><img src="https://unpkg.com/lucide-static@0.469.0/icons/heart.svg" alt="" style="width:22px;height:22px">찜</button>
+            <button style="display:flex;flex-direction:column;align-items:center;gap:4px;border:0;background:none;opacity:.35;font-size:10px;cursor:pointer"><img src="https://unpkg.com/lucide-static@0.469.0/icons/user.svg" alt="" style="width:22px;height:22px">마이</button>
+          </nav>
+          <sc-if value="{{ sc.sheet }}">
+            <div onClick="{{ sc.closeSheet }}" style="position:absolute;inset:0;z-index:10;background:rgba(0,0,0,0.45)"></div>
+            <div role="dialog" aria-label="정렬" style="position:absolute;left:0;right:0;bottom:0;z-index:11;background:#fff;border-radius:16px 16px 0 0;padding:8px 0 36px">
+              <div style="display:flex;justify-content:center;padding:4px 0 8px"><span style="width:36px;height:4px;border-radius:2px;background:#d9d6cf"></span></div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px 12px 24px">
+                <span style="font-size:18px;font-weight:700;letter-spacing:-0.4px">정렬</span>
+                <button aria-label="닫기" onClick="{{ sc.closeSheet }}" class="cc-press" style="width:44px;height:44px;border:0;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer"><img src="https://unpkg.com/lucide-static@0.469.0/icons/x.svg" alt="" style="width:22px;height:22px"></button>
+              </div>
+              <div style="display:flex;flex-direction:column;padding:0 12px">
+                <sc-for list="{{ sc.sheetOpts }}" as="o" hint-placeholder-count="4">
+                  <button onClick="{{ o.onClick }}" style="{{ o.style }}">
+                    <span style="display:flex;flex-direction:column;gap:3px;text-align:left">
+                      <span>{{ o.l }}</span>
+                      <span style="font-size:12px;font-weight:400;color:#8a8a8a">{{ o.desc }}</span>
+                    </span>
+                    <sc-if value="{{ o.on }}"><span style="width:24px;height:24px;border-radius:50%;background:#dcf06a;display:flex;align-items:center;justify-content:center;flex:none"><img src="https://unpkg.com/lucide-static@0.469.0/icons/check.svg" alt="선택됨" style="width:15px;height:15px"></span></sc-if>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <div style="display:flex;align-items:baseline;gap:10px">
+      <span style="font-size:13px;font-weight:700">04</span>
+      <span style="font-size:13px;color:#555">PC · 1280px — 4열 (1024~1279px 3열, 640~1023px 2열, 640px 미만 1열)</span>
+    </div>
+    <div style="width:1280px;background:#faf9f6;border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,0.06);position:relative">
+      <div style="height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;border-bottom:1px solid rgba(0,0,0,0.06)">
+        <div style="display:flex;align-items:center;gap:40px">
+          <span style="font-size:24px;font-weight:800;letter-spacing:-1px">oneday</span>
+          <div style="display:flex;gap:28px;font-size:15px">
+            <span style="color:#7a7a7a">홈</span><span style="font-weight:700">클래스</span><span style="color:#7a7a7a">이벤트</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px">
+          <div style="width:280px;height:42px;border-radius:21px;background:#f0ede6;display:flex;align-items:center;gap:8px;padding:0 16px;font-size:14px;color:#8a8a8a"><img src="https://unpkg.com/lucide-static@0.469.0/icons/search.svg" alt="" style="width:16px;height:16px;opacity:.6">배우고 싶은 걸 검색해 보세요</div>
+          <img src="https://unpkg.com/lucide-static@0.469.0/icons/heart.svg" alt="찜" style="width:22px;height:22px">
+          <img src="https://unpkg.com/lucide-static@0.469.0/icons/user.svg" alt="마이" style="width:22px;height:22px">
+        </div>
+      </div>
+      <div style="padding:56px 48px 28px;display:flex;justify-content:space-between;align-items:flex-end">
+        <span style="font-size:40px;line-height:1.2;letter-spacing:-1.4px;font-weight:300">이번 주말엔 <b style="font-weight:700">뭘 배워볼까요?</b></span>
+        <span style="display:flex;align-items:center;gap:4px;font-size:15px;font-weight:600"><img src="https://unpkg.com/lucide-static@0.469.0/icons/map-pin.svg" alt="" style="width:16px;height:16px">서울 전체<img src="https://unpkg.com/lucide-static@0.469.0/icons/chevron-down.svg" alt="" style="width:16px;height:16px;opacity:.5"></span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:0 48px 28px">
+        <div style="display:flex;gap:8px">
+          <sc-for list="{{ pc.cats }}" as="c" hint-placeholder-count="6">
+            <button class="cc-press" onClick="{{ c.onClick }}" style="{{ c.style }}">{{ c.label }}</button>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;position:relative">
+          <span style="font-size:14px;color:#7a7a7a;white-space:nowrap">총 <b style="color:#1d1d1f;font-weight:600">{{ pc.count }}</b>개</span>
+          <button class="cc-press" onClick="{{ pc.toggleMenu }}" style="display:flex;align-items:center;gap:2px;border:0;background:#f0ede6;border-radius:6px;padding:9px 10px 9px 14px;font-size:14px;font-weight:600;color:#1d1d1f;cursor:pointer">{{ pc.sortLabel }}<img src="https://unpkg.com/lucide-static@0.469.0/icons/chevron-down.svg" alt="" style="width:16px;height:16px"></button>
+          <sc-if value="{{ pc.sheet }}">
+            <div style="position:absolute;top:48px;right:0;z-index:5;width:240px;background:#fff;border-radius:10px;padding:8px;box-shadow:0 12px 32px rgba(0,0,0,0.12)">
+              <sc-for list="{{ pc.sheetOpts }}" as="o" hint-placeholder-count="4">
+                <button onClick="{{ o.onClick }}" style="{{ o.stylePc }}"><span>{{ o.l }}</span><sc-if value="{{ o.on }}"><img src="https://unpkg.com/lucide-static@0.469.0/icons/check.svg" alt="선택됨" style="width:16px;height:16px"></sc-if></button>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:48px 24px;padding:0 48px 72px">
+        <sc-for list="{{ pc.items }}" as="it" hint-placeholder-count="8">
+          <article style="display:flex;flex-direction:column;gap:14px;cursor:pointer">
+            <div style="position:relative;aspect-ratio:4/3;border-radius:4px;overflow:hidden;background:#ece8df">
+              <image-slot id="class-photo-{{ it.id }}" shape="rect" placeholder="{{ it.photoHint }}"></image-slot>
+              <sc-if value="{{ it.hasSale }}"><span style="position:absolute;left:0;bottom:0;pointer-events:none;background:#1d1d1f;color:#fff;font-size:12px;font-weight:700;padding:6px 10px">{{ it.pct }} 할인 중</span></sc-if>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="background:#dcf06a;font-size:11px;font-weight:700;padding:3px 6px;border-radius:2px">{{ it.cat }}</span>
+                  <span style="font-size:12px;color:#7a7a7a">{{ it.area }}</span>
+                </div>
+                <button aria-label="찜하기" class="cc-press" onClick="{{ it.onLike }}" style="width:32px;height:32px;margin:-6px -6px -6px 0;border:0;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer"><img src="{{ it.heartSrc }}" alt="" style="width:19px;height:19px"></button>
+              </div>
+              <span style="font-size:17px;font-weight:600;letter-spacing:-0.4px;line-height:1.35">{{ it.name }}</span>
+              <sc-if value="{{ it.hasPrice }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap">
+                  <sc-if value="{{ it.hasSale }}"><span style="font-size:17px;font-weight:800;color:#e0461f">{{ it.pct }}</span></sc-if>
+                  <span style="font-size:17px;font-weight:800">{{ it.price }}</span>
+                  <sc-if value="{{ it.hasSale }}"><span style="font-size:13px;color:#9a9a9a;text-decoration:line-through">{{ it.orig }}</span></sc-if>
+                </div>
+              </sc-if>
+              <sc-if value="{{ it.noPrice }}"><span style="font-size:16px;font-weight:700;color:#555">가격 문의</span></sc-if>
+              <sc-if value="{{ it.hasReview }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;align-items:center;gap:4px;font-size:13px;color:#7a7a7a">
+                  <img src="https://unpkg.com/lucide-static@0.469.0/icons/star.svg" alt="평점" style="width:13px;height:13px">
+                  <b style="font-weight:700;color:#1d1d1f">{{ it.rating }}</b><span>리뷰 {{ it.reviewCount }}</span>
+                </div>
+              </sc-if>
+              <sc-if value="{{ it.noReview }}"><span style="font-size:13px;color:#9a9a9a">아직 리뷰가 없어요</span></sc-if>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const DATA=[
+{id:1,cat:'공예',area:'서울 성수',name:'라탄 바구니',price:39000,sale:31200,rating:4.4,reviews:213,hint:'라탄 바구니 작업 사진'},
+{id:2,cat:'디지털',area:'서울 마포',name:'노션 정리법',price:null,sale:null,rating:3.8,reviews:142,hint:'노션 화면 · 강의 사진'},
+{id:3,cat:'운동',area:'서울 강남',name:'커플 클라이밍 체험',price:30000,sale:null,rating:null,reviews:0,hint:'클라이밍 짐 사진'},
+{id:4,cat:'공예',area:'서울 연남',name:'물레로 빚는 첫 머그컵',price:55000,sale:46750,rating:4.8,reviews:389,hint:'도예 물레 사진'},
+{id:5,cat:'요리',area:'서울 한남',name:'제철 과일 타르트',price:48000,sale:null,rating:4.6,reviews:97,hint:'타르트 완성 사진'},
+{id:6,cat:'드로잉',area:'서울 을지로',name:'아이패드 인물 드로잉',price:42000,sale:35700,rating:4.2,reviews:58,hint:'드로잉 작업 사진'},
+{id:7,cat:'운동',area:'서울 잠실',name:'선셋 패들보드',price:null,sale:null,rating:null,reviews:0,hint:'한강 패들보드 사진'},
+{id:8,cat:'디지털',area:'서울 성수',name:'필름 감성 사진 보정',price:35000,sale:null,rating:4.5,reviews:176,hint:'사진 보정 화면'}];
+const CATS=['전체','공예','디지털','운동','요리','드로잉'];
+const SORTS=[{v:'rec',l:'추천순',desc:'만족도와 최근 예약을 함께 반영해요'},{v:'rating',l:'평점 높은순',desc:'별점이 높은 클래스부터'},{v:'reviews',l:'리뷰 많은순',desc:'후기가 많이 쌓인 클래스부터'},{v:'price',l:'가격 낮은순',desc:'가격 문의 클래스는 맨 뒤로 가요'}];
+const won=n=>n.toLocaleString('ko-KR')+'원';
+const eff=d=>d.sale??d.price;
+const CMP={rec:(x,y)=>x.id-y.id,rating:(x,y)=>(y.rating??-1)-(x.rating??-1),reviews:(x,y)=>y.reviews-x.reviews,price:(x,y)=>(eff(x)??1e12)-(eff(y)??1e12)};
+const ICON=n=>`https://unpkg.com/lucide-static@0.469.0/icons/${n}.svg`;
+const HEART_ON='data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#e0461f" stroke="#e0461f" stroke-width="2" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>');
+class Component extends DCLogic {
+  state={s1:{cat:'전체',sort:'rec',sheet:false},s2:{cat:'전체',sort:'rating',sheet:true},s3:{cat:'공예',sort:'price',sheet:false},pc:{cat:'전체',sort:'rec',sheet:false},liked:{4:true}};
+  set(k,p){this.setState(s=>({[k]:{...s[k],...p}}));}
+  view(k,pc){
+    const st=this.state[k], liked=this.state.liked;
+    const items=DATA.filter(d=>st.cat==='전체'||d.cat===st.cat).sort(CMP[st.sort]).map(d=>{
+      const hasPrice=d.price!=null, hasSale=hasPrice&&d.sale!=null, hasReview=d.reviews>0, on=!!liked[d.id];
+      return {...d,photoHint:d.hint,hasPrice,noPrice:!hasPrice,hasSale,price:hasPrice?won(eff(d)):'',orig:hasSale?won(d.price):'',
+        pct:hasSale?Math.round((1-d.sale/d.price)*100)+'%':'',hasReview,noReview:!hasReview,
+        rating:hasReview?d.rating.toFixed(1):'',reviewCount:d.reviews.toLocaleString('ko-KR'),
+        heartSrc:on?HEART_ON:ICON('heart'),
+        onLike:e=>{e.stopPropagation();this.setState(s=>({liked:{...s.liked,[d.id]:!on}}));}};
+    });
+    const cats=CATS.map(c=>{const on=st.cat===c;return {label:c,onClick:()=>this.set(k,{cat:c}),
+      style:{flex:'none',whiteSpace:'nowrap',border:0,cursor:'pointer',borderRadius:999,minHeight:pc?40:36,padding:pc?'0 18px':'0 14px',fontSize:pc?14:13,fontWeight:on?700:500,background:on?'#1d1d1f':'#f0ede6',color:on?'#fff':'#555',transition:'transform .2s ease'}};});
+    const sheetOpts=SORTS.map(s=>{const on=st.sort===s.v;return {...s,on,onClick:()=>this.set(k,{sort:s.v,sheet:false}),
+      style:{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,width:'100%',minHeight:64,padding:'10px 14px',border:0,borderRadius:10,cursor:'pointer',background:on?'#f4f2ec':'transparent',fontSize:16,fontWeight:on?700:500,color:'#1d1d1f'},
+      stylePc:{display:'flex',alignItems:'center',justifyContent:'space-between',width:'100%',minHeight:44,padding:'0 12px',border:0,borderRadius:6,cursor:'pointer',background:on?'#f4f2ec':'transparent',fontSize:14,fontWeight:on?700:400,color:'#1d1d1f'}};});
+    const open=!!st.sheet;
+    return {items,cats,sheetOpts,sheet:open,count:items.length,sortLabel:SORTS.find(s=>s.v===st.sort).l,
+      openSheet:()=>this.set(k,{sheet:true}),closeSheet:()=>this.set(k,{sheet:false}),toggleMenu:()=>this.set(k,{sheet:!open}),
+      frameStyle:{position:'relative',width:375,height:open?812:'auto',overflow:'hidden',background:'#faf9f6',borderRadius:36,boxShadow:'0 0 0 8px #1d1d1f, 0 24px 48px rgba(0,0,0,0.18)'}};
+  }
+  renderVals(){
+    return {
+      screens:[{no:'01',title:'목록 — 기본 (칩·정렬·찜 동작)',...this.view('s1')},{no:'02',title:'정렬 바텀시트 — 선택 항목은 영역만 표시',...this.view('s2')},{no:'03',title:'필터 적용 — 공예 · 가격 낮은순',...this.view('s3')}],
+      pc:this.view('pc',true)};
+  }
+}
+</script>
+</body>
+</html>

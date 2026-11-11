@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}인사 · 클래스로 마켓{% endblock %}
+
+{% block content %}
+  {# {{ name }} 은 app.py가 넘겨준 이름이에요. 위험한 글자는 자동으로 안전하게 바뀌어요 #}
+  <h1>안녕하세요, {{ name }} 님</h1>
+  <p><a href="{{ url_for('home') }}">홈으로 돌아가기</a></p>
+{% endblock %}

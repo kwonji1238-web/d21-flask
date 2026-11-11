@@ -1,0 +1,91 @@
+{% extends "base.html" %}                                {# base.html 틀을 물려받아요 #}
+
+{% block title %}클래스 · 클래스로 마켓{% endblock %}      {# 탭 제목이에요 #}
+{% block main_class %}wide{% endblock %}                 {# 목록은 넓은 본문을 써요 (여러 열 카드) #}
+
+{% block content %}
+  {% from "_macros.html" import price, rating, sale_pct %}   {# 할인율·가격·평점 표시 틀을 가져와요 (상세 화면과 똑같이 써요) #}
+
+  {# 정렬 선택지: (주소에 붙는 값, 이름, 설명). 값이 빈 글자면 기본(추천순)이에요 #}
+  {% set sorts = [
+    ("", "추천순", "기본 순서로 보여 줘요"),
+    ("rating", "평점 높은순", "별점이 높은 클래스부터"),
+    ("reviews", "리뷰 많은순", "후기가 많이 쌓인 클래스부터"),
+    ("price", "가격 낮은순", "가격 문의 클래스는 맨 뒤로 가요"),
+  ] %}
+  {% set current = (sorts | selectattr(0, "equalto", sort) | list | first) or sorts[0] %}   {# 지금 고른 정렬 (모르는 값이면 추천순) #}
+
+  <h1 class="headline">이번 주말엔 <b>뭘 배워볼까요?</b></h1>
+
+  {# ── 위쪽 고정 바: 카테고리 칩 + 개수 + 정렬. 누르면 주소의 ?뒤 값이 바뀌어요 (GET 방식) ── #}
+  <div class="filterbar">
+    <nav class="cats" aria-label="카테고리">
+      <a class="chip {% if not category %}on{% endif %}" href="{{ url_for('class_list', sort=sort or None) }}">전체</a>   {# 거르지 않음 #}
+      {% for cat in categories %}                     {# 카테고리마다 칩을 하나씩 만들어요 #}
+        <a class="chip {% if cat == category %}on{% endif %}" href="{{ url_for('class_list', category=cat, sort=sort or None) }}">{{ cat }}</a>   {# 지금 고른 것이면 진하게 #}
+      {% endfor %}
+    </nav>
+
+    <div class="result-row">
+      <span class="count">총 <b>{{ classes | length }}</b>개</span>
+
+      {# 정렬: 모바일은 아래에서 올라오는 시트, PC는 드롭다운이에요 #}
+      <details class="sort">
+        <summary>{{ current[1] }}<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+        <div class="sort-dim"></div>
+        <div class="sort-menu" role="dialog" aria-label="정렬">
+          <span class="grabber"></span>
+          <div class="sort-head">
+            <span>정렬</span>
+            <button type="button" class="sort-close" aria-label="닫기">×</button>
+          </div>
+          <ul>
+            {% for value, label, desc in sorts %}     {# 정렬 선택지마다 한 줄씩 만들어요 #}
+              <li>
+                <a class="{% if value == current[0] %}on{% endif %}" href="{{ url_for('class_list', category=category or None, sort=value or None) }}">   {# 고른 카테고리는 그대로 두고 정렬만 바꿔요 #}
+                  <span><span class="lbl">{{ label }}</span><small>{{ desc }}</small></span>
+                  {% if value == current[0] %}<i class="check" aria-label="선택됨">✓</i>{% endif %}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  {% if classes %}                                    {# 결과가 1개 이상이면 #}
+    <ul class="cards">
+      {% for c in classes %}                          {# 클래스마다 카드를 하나씩 만들어요 #}
+        <li class="card">
+          <a class="card-link" href="{{ url_for('class_detail', class_id=c.id) }}">   {# 카드 전체를 누르면 상세 화면으로 가요 #}
+            <div class="photo">                                     {# 사진 자리 (사진 데이터가 아직 없어요) #}
+              {% if c.on_sale %}<span class="badge">{{ sale_pct(c) }} 할인 중</span>{% endif %}   {# 할인 중일 때만 #}
+            </div>
+            <div class="info">
+              <p class="meta"><span class="tag">{{ c.category }}</span><span>{{ c.region }}</span></p>   {# 카테고리 태그 · 지역 #}
+              <h2>{{ c.name }}</h2>                                 {# 클래스 이름 #}
+              <p class="price">{{ price(c) }}</p>                   {# 가격 (비면 '가격 문의') #}
+              <p class="rating">{{ rating(c) }}</p>                 {# 평점 (비면 '아직 리뷰가 없어요') #}
+            </div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}                                          {# 결과가 0개이면 #}
+    <p class="empty">조건에 맞는 클래스가 없어요</p>
+  {% endif %}
+
+  <script>
+    /* 정렬 시트 닫기: 어두운 바깥 · × 버튼 · 바깥 클릭 · Esc (JS 없어도 정렬 자체는 링크라서 동작해요) */
+    (function () {
+      var d = document.querySelector("details.sort");
+      if (!d) return;
+      function close() { d.removeAttribute("open"); }
+      d.querySelector(".sort-dim").addEventListener("click", close);
+      d.querySelector(".sort-close").addEventListener("click", close);
+      document.addEventListener("click", function (e) { if (!d.contains(e.target)) close(); });
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
+    })();
+  </script>
+{% endblock %}

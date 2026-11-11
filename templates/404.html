@@ -1,0 +1,11 @@
+{% extends "base.html" %}                                {# 404 화면도 같은 틀(메뉴·바닥 글씨)을 물려받아요 #}
+
+{% block title %}페이지 없음 · 클래스로 마켓{% endblock %}
+
+{% block content %}
+  <div class="empty">
+    <h1>찾는 페이지가 없어요</h1>
+    <p>주소가 바뀌었거나 없어진 페이지일 수 있어요.</p>
+    <p><a href="{{ url_for('class_list') }}">클래스 목록으로 가기</a></p>   {# 목록으로 돌아가는 링크 #}
+  </div>
+{% endblock %}

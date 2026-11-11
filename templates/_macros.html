@@ -1,0 +1,23 @@
+{# 목록과 상세가 같이 쓰는 '할인율 · 가격 · 평점 표시 틀'이에요. 빈칸 처리를 한 곳에서만 해요 #}
+
+{% macro sale_pct(c) -%}                                   {# 할인율: round((1 - 판매가/정가) × 100)% #}
+  {{- ((1 - c.price / c.list_price) * 100) | round | int -}}%
+{%- endmacro %}
+
+{% macro price(c) %}                                       {# 가격을 보여 주는 틀이에요 #}
+  {% if c.price is none %}                                 {# 판매가가 비어 있으면 #}
+    <span class="inquiry">가격 문의</span>
+  {% else %}                                               {# 판매가가 있으면 #}
+    {% if c.on_sale %}<em class="pct">{{ sale_pct(c) }}</em>{% endif %}   {# 할인 중이면 할인율 #}
+    <strong>{{ c.price | won }}</strong>                   {# 판매가 #}
+    {% if c.on_sale %}<s>{{ c.list_price | won }}</s>{% endif %}   {# 할인 중이면 정가에 취소선 #}
+  {% endif %}
+{% endmacro %}
+
+{% macro rating(c) %}                                      {# 평점을 보여 주는 틀이에요 #}
+  {% if c.rating is none %}                                {# 평점이 비어 있으면 #}
+    <span class="none">아직 리뷰가 없어요</span>
+  {% else %}                                               {# 평점이 있으면 #}
+    <span class="star" aria-hidden="true">★</span><b>{{ "%.1f" | format(c.rating) }}</b><span>리뷰 {{ "{:,}".format(c.reviews) }}</span>   {# ★ 평점 리뷰 수(천 단위 콤마) #}
+  {% endif %}
+{% endmacro %}
